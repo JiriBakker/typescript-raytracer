@@ -1,3 +1,5 @@
 /Jiri.RayTracer/node_modules
 /artifacts
 /.vs
+/Jiri.RayTracer/project.lock.json
+/Jiri.RayTracer/*.user

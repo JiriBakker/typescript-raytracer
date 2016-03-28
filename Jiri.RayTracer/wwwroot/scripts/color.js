@@ -30,5 +30,11 @@ var Color = (function () {
     };
     Color.BLACK = new Color(0, 0, 0);
     Color.WHITE = new Color(255, 255, 255);
+    Color.RED = new Color(255, 0, 0);
+    Color.GREEN = new Color(0, 255, 0);
+    Color.BLUE = new Color(0, 0, 255);
+    Color.YELLOW = new Color(255, 255, 0);
+    Color.PURPLE = new Color(255, 0, 255);
+    Color.CYAN = new Color(0, 255, 255);
     return Color;
 }());

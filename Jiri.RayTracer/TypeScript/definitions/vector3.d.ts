@@ -15,7 +15,10 @@ declare class Vector3 {
     crossProduct(other: Vector3): Vector3;
     normalize(): Vector3;
     clone(): Vector3;
+    static LEFT: Vector3;
     static RIGHT: Vector3;
     static UP: Vector3;
+    static DOWN: Vector3;
+    static BACKWARD: Vector3;
     static FORWARD: Vector3;
 }

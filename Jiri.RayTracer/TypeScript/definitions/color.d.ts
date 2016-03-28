@@ -13,4 +13,10 @@ declare class Color {
     clone(): Color;
     static BLACK: Color;
     static WHITE: Color;
+    static RED: Color;
+    static GREEN: Color;
+    static BLUE: Color;
+    static YELLOW: Color;
+    static PURPLE: Color;
+    static CYAN: Color;
 }

@@ -41,8 +41,11 @@ var Vector3 = (function () {
     Vector3.prototype.clone = function () {
         return new Vector3(this.x, this.y, this.z);
     };
+    Vector3.LEFT = new Vector3(-1, 0, 0);
     Vector3.RIGHT = new Vector3(1, 0, 0);
     Vector3.UP = new Vector3(0, 1, 0);
-    Vector3.FORWARD = new Vector3(0, 0, 1);
+    Vector3.DOWN = new Vector3(0, -1, 0);
+    Vector3.BACKWARD = new Vector3(0, 0, 1);
+    Vector3.FORWARD = new Vector3(0, 0, -1);
     return Vector3;
 }());

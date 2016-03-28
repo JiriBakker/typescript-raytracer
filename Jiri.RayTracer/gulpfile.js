@@ -31,5 +31,5 @@ gulp.task('ts-compile', function () {
 });
  
 gulp.task('watch', ['ts-compile'], function () {
-    gulp.watch(paths.tsDef, ['ts-compile']);
+    gulp.watch(paths.tsSource, ['ts-compile']);
 });

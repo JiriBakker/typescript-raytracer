@@ -51,9 +51,11 @@
         return new Vector3(this.x, this.y, this.z);
     }
 
-
-    static RIGHT   = new Vector3(1, 0, 0);
-    static UP      = new Vector3(0, 1, 0);
-    static FORWARD = new Vector3(0, 0, 1);
+    static LEFT     = new Vector3(-1,  0,  0);
+    static RIGHT    = new Vector3( 1,  0,  0);
+    static UP       = new Vector3( 0,  1,  0);
+    static DOWN     = new Vector3( 0, -1,  0);
+    static BACKWARD = new Vector3( 0,  0,  1);
+    static FORWARD  = new Vector3( 0,  0, -1);
 
 }

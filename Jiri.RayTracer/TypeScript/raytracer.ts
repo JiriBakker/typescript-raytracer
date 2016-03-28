@@ -1,51 +1,40 @@
-﻿class RayTracer {
+﻿namespace Jiri.RayTracer {
 
-    constructor(private context: CanvasRenderingContext2D, private width: number, private height: number) { }
+    export class RayTracer {
 
-    public render(scene: Scene) {
-        var imageData = this.context.getImageData(0, 0, this.width, this.height);        
+        constructor(private context: CanvasRenderingContext2D, private width: number, private height: number) { }
 
-        var viewport = new Viewport(
-                        new Vector3(0.0, 0.0, 4.0), 
-                        new Vector3(0.0, 0.0, -1.0),
-                        this.width,
-                        this.height,
-                        45);        
+        public render(viewport: Viewport, scene: Scene) {
+            var imageData = this.context.getImageData(0, 0, this.width, this.height);
 
-        console.log(viewport.getRayForPixel(0, 0));
+            for (var x = 0; x < this.width; x++) {
+                for (var y = 0; y < this.height; y++) {
 
-        var firstHit = true;
+                    var ray = viewport.getRayForPixel(x, y);
 
-        for (var x = 0; x < this.width; x++) {
-            for (var y = 0; y < this.height; y++) {
-
-                var ray = viewport.getRayForPixel(x, y);
-                
-                //console.log(ray);
-                
-                var color = Color.BLACK;
-                for (var i = 0; i < scene.objects.length; i++) {
-                    var intersection = scene.objects[i].intersect(ray);
-                    if (intersection != null) {
-                        if (firstHit) {
-                            console.log(intersection);
-                            console.log(ray);
-                            firstHit = false;
+                    var closestIntersection = null;
+                    for (var i = 0; i < scene.objects.length; i++) {
+                        var intersection = scene.objects[i].intersect(ray);
+                        if (intersection != null) {
+                            if (closestIntersection == null || closestIntersection.distance < intersection.distance) {
+                                closestIntersection = intersection;
+                            }
                         }
-                        //console.log("has intersection!");
-                        color = Color.WHITE;
                     }
-                }
 
-                var index = (x * 4) + (y * this.width * 4)
-                imageData.data[index + 0] = color.getRed();
-                imageData.data[index + 1] = color.getGreen();
-                imageData.data[index + 2] = color.getBlue();
-                imageData.data[index + 3] = 255;
+                    var color = closestIntersection != null ? closestIntersection.object.getColor() : Color.BLACK;
+
+                    var index = (x * 4) + (y * this.width * 4)
+                    imageData.data[index + 0] = color.getRed();
+                    imageData.data[index + 1] = color.getGreen();
+                    imageData.data[index + 2] = color.getBlue();
+                    imageData.data[index + 3] = 255;
+                }
             }
+
+            this.context.putImageData(imageData, 0, 0);
         }
 
-        this.context.putImageData(imageData, 0, 0);
     }
 
 }

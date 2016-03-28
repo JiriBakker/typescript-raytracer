@@ -19,6 +19,7 @@ interface Intersection {
 
 interface SceneObject {
     intersect: (ray: Ray) => Intersection;
+    getColor:  ()         => Color;
 }
 
 

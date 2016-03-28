@@ -34,7 +34,15 @@
         return new Color(this.red, this.green, this.blue);
     }
 
-    static BLACK = new Color(  0,   0,   0);
-    static WHITE = new Color(255, 255, 255);
+    static BLACK  = new Color(  0,   0,   0);
+    static WHITE  = new Color(255, 255, 255);
+    
+    static RED    = new Color(255,   0,   0);
+    static GREEN  = new Color(  0, 255,   0);
+    static BLUE   = new Color(  0,   0, 255);
+
+    static YELLOW = new Color(255, 255,   0);
+    static PURPLE = new Color(255,   0, 255);
+    static CYAN   = new Color(  0, 255, 255);
 
 }

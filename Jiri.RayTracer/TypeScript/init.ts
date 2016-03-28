@@ -23,13 +23,14 @@ setTimeout(function () {
             90),
         {
             objects: [
-                new SceneObjects.Plane(Vector3.BACKWARD, -10.0, Color.GREEN, 0.7, 0.2), // back wall
-                new SceneObjects.Plane(Vector3.UP, -10.0, Color.PURPLE, 0.7, 0.2), // floor
-                new SceneObjects.Plane(Vector3.DOWN, -10.0, Color.CYAN, 0.7, 0.2),   // ceiling
-                new SceneObjects.Plane(Vector3.RIGHT, -10.0, Color.YELLOW, 0.7, 0.2), // left wall
-                new SceneObjects.Plane(Vector3.LEFT, -10.0, Color.BLUE, 0.7, 0.2),  // right wall
+                new SceneObjects.Plane(Vector3.BACKWARD, -10.0, Color.GREEN, 0.7, 0.2, 0), // back wall
+                new SceneObjects.Plane(Vector3.UP, -10.0, Color.PURPLE, 0.7, 0.2, 0), // floor
+                new SceneObjects.Plane(Vector3.DOWN, -10.0, Color.CYAN, 0.7, 0.2, 0),   // ceiling
+                new SceneObjects.Plane(Vector3.RIGHT, -10.0, Color.YELLOW, 0.7, 0.2, 0), // left wall
+                new SceneObjects.Plane(Vector3.LEFT, -10.0, Color.BLUE, 0.7, 0.2, 0),  // right wall
                 
-                new SceneObjects.Sphere(new Vector3(2.0, -2.0, -7.0), 1.0, Color.RED, 0.7, 0.2)
+                new SceneObjects.Sphere(new Vector3(-2.0, -2.0, -3.0), 1.0, Color.RED, 0.7, 0.2, 0),
+                new SceneObjects.Sphere(new Vector3(3.0, 2.0, -7.0), 2.0, new Color(128, 128, 128), 0.7, 0.2, 0.9)
             ],
             lights: [
                 { origin: new Vector3(0.0, 3.0, -5.0), color: Color.WHITE }

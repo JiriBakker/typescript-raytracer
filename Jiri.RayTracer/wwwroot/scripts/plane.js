@@ -11,8 +11,8 @@ var Jiri;
         (function (SceneObjects) {
             var Plane = (function (_super) {
                 __extends(Plane, _super);
-                function Plane(normalVector, offset, color, lambert, ambient) {
-                    _super.call(this, color, lambert, ambient);
+                function Plane(normalVector, offset, color, lambert, ambient, specular) {
+                    _super.call(this, color, lambert, ambient, specular);
                     this.normalVector = normalVector;
                     this.offset = offset;
                 }

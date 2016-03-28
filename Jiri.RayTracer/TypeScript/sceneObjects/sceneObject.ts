@@ -2,7 +2,7 @@
 
     export abstract class SceneObject {
 
-        constructor(private color: Color, private lambert: number, private ambient: number) { }
+        constructor(private color: Color, private lambert: number, private ambient: number, private specular: number) { }
 
         public abstract intersect(ray: Ray);
 
@@ -14,6 +14,10 @@
 
         public getAmbient() {
             return this.ambient;
+        }
+
+        public getSpecular() {
+            return this.specular;
         }
 
         public getColor() {

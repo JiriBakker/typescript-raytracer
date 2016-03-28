@@ -8,6 +8,7 @@ setTimeout(function () {
     document.body.appendChild(canvas);
     var context = canvas.getContext("2d");
     var rayTracer = new RayTracer(context, canvas.width, canvas.height);
+    var startTick = new Date().getTime();
     rayTracer.render(new Viewport(new Vector3(0.0, 0.0, 10.0), new Vector3(0.0, 0.0, -1.0), canvas.width, canvas.height, 90), {
         objects: [
             new SceneObjects.Plane(Vector3.BACKWARD, -10.0, Color.GREEN, 0.7, 0.2),
@@ -21,4 +22,6 @@ setTimeout(function () {
             { origin: new Vector3(0.0, 3.0, -5.0), color: Color.WHITE }
         ]
     });
+    var endTick = new Date().getTime();
+    document.getElementById("renderTime").innerHTML = (endTick - startTick) + "ms";
 }, 500);

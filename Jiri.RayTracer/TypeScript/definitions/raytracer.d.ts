@@ -5,5 +5,7 @@ declare namespace Jiri.RayTracer {
         private height;
         constructor(context: CanvasRenderingContext2D, width: number, height: number);
         render(viewport: Viewport, scene: Scene): void;
+        private trace(ray, scene);
+        private findIntersection(ray, scene);
     }
 }

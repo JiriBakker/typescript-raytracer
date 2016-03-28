@@ -1,10 +1,9 @@
 declare namespace Jiri.RayTracer.SceneObjects {
-    class Plane implements SceneObject {
+    class Plane extends SceneObject {
         private normalVector;
         private offset;
-        private color;
-        constructor(normalVector: Vector3, offset: number, color: Color);
+        constructor(normalVector: Vector3, offset: number, color: Color, lambert: number, ambient: number);
         intersect(ray: Ray): any;
-        getColor(): Color;
+        getNormalAt(position: Vector3): Vector3;
     }
 }

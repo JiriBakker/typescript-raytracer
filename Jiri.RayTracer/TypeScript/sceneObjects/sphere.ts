@@ -1,17 +1,19 @@
 ﻿namespace Jiri.RayTracer.SceneObjects {
 
-    export class Sphere implements SceneObject {
+    export class Sphere extends SceneObject {
 
-        constructor(private center: Vector3, private radius: number, private color: Color) { }
+        constructor(private center: Vector3, private radius: number, color: Color, lambert: number, ambient: number) {
+            super(color, lambert, ambient);
+        }
 
         public intersect(ray: Ray) {
-            var eo = this.center.subtract(ray.origin);
-            var v = eo.dotProduct(ray.direction);
+            var eyeToCenter = this.center.subtract(ray.origin);
+            var v = eyeToCenter.dotProduct(ray.direction);
             var distance = 0;
             if (v >= 0) {
-                var disc = (this.radius * this.radius) - (eo.dotProduct(eo) - v * v);
-                if (disc >= 0) {
-                    distance = v - Math.sqrt(disc);
+                var discriminant = (this.radius * this.radius) - (eyeToCenter.dotProduct(eyeToCenter) - v * v);
+                if (discriminant >= 0) {
+                    distance = v - Math.sqrt(discriminant);
                 }
             }
             if (distance === 0) {
@@ -25,8 +27,8 @@
             }
         }
 
-        public getColor() {
-            return this.color;
+        public getNormalAt(position: Vector3) {
+            return position.subtract(this.center).normalize();            
         }
 
     }

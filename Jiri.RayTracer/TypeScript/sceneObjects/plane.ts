@@ -1,28 +1,28 @@
 ﻿namespace Jiri.RayTracer.SceneObjects {
 
-    export class Plane implements SceneObject {
+    export class Plane extends SceneObject {
 
-        constructor(private normalVector: Vector3, private offset: number, private color: Color) { }
+        constructor(private normalVector: Vector3, private offset: number, color: Color, lambert: number, ambient: number) {
+            super(color, lambert, ambient);
+        }
 
         public intersect(ray: Ray) {
             var denom = this.normalVector.dotProduct(ray.direction);
             if (denom > 0) {
                 return null;
             }
-            else {
-                var sceneObject
-                return {
-                    object: <SceneObject>this,
-                    ray: ray,
-                    distance: (this.normalVector.dotProduct(ray.origin) + this.offset) / (-denom)
-                };
-            }
+            return {
+                object: <SceneObject>this,
+                ray: ray,
+                distance: (this.normalVector.scale(this.offset).subtract(ray.origin).dotProduct(this.normalVector)) / denom
+            };
+        }   
+
+        public getNormalAt(position: Vector3) {
+            return this.normalVector;
         }
 
-        public getColor() {
-            return this.color;
-        }
 
     }
-    
+
 }

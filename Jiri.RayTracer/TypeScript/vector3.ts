@@ -47,6 +47,10 @@
         return new Vector3(this.x / length, this.y / length, this.z / length);
     }
 
+    invert() {
+        return this.scale(-1);
+    }
+
     clone() {
         return new Vector3(this.x, this.y, this.z);
     }

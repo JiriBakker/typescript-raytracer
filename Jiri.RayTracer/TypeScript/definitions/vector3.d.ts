@@ -14,6 +14,7 @@ declare class Vector3 {
     dotProduct(other: Vector3): number;
     crossProduct(other: Vector3): Vector3;
     normalize(): Vector3;
+    invert(): Vector3;
     clone(): Vector3;
     static LEFT: Vector3;
     static RIGHT: Vector3;

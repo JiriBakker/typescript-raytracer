@@ -14,12 +14,8 @@
 
         constructor(private cameraOrigin: Vector3, cameraDirection: Vector3, screenWidth: number, screenHeight: number, fieldOfView: number) {
             this.cameraForward = cameraDirection.subtract(this.cameraOrigin).normalize();
-            this.cameraRight = this.cameraForward.crossProduct(Vector3.DOWN).normalize(); // Since the canvas is rendered top to bottom, we need to invert the y-axis of the camera (thus using DOWN here instead of UP)
-            this.cameraUp = this.cameraRight.crossProduct(this.cameraForward).normalize();
-
-            console.log(this.cameraForward);
-            console.log(this.cameraRight);
-            console.log(this.cameraUp);
+            this.cameraRight = this.cameraForward.crossProduct(Vector3.UP).normalize();
+            this.cameraUp = this.cameraRight.crossProduct(this.cameraForward).normalize();  // Since the canvas is rendered top to bottom, we need to invert the y-axis of the camera
 
             var heightWidthRatio = screenHeight / screenWidth;
 

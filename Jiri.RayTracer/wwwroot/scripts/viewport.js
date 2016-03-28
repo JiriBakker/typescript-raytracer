@@ -6,11 +6,8 @@ var Jiri;
             function Viewport(cameraOrigin, cameraDirection, screenWidth, screenHeight, fieldOfView) {
                 this.cameraOrigin = cameraOrigin;
                 this.cameraForward = cameraDirection.subtract(this.cameraOrigin).normalize();
-                this.cameraRight = this.cameraForward.crossProduct(Vector3.DOWN).normalize();
+                this.cameraRight = this.cameraForward.crossProduct(Vector3.UP).normalize();
                 this.cameraUp = this.cameraRight.crossProduct(this.cameraForward).normalize();
-                console.log(this.cameraForward);
-                console.log(this.cameraRight);
-                console.log(this.cameraUp);
                 var heightWidthRatio = screenHeight / screenWidth;
                 this.halfWidth = Math.tan(Math.PI * (fieldOfView / 2) / 180);
                 this.halfHeight = heightWidthRatio * this.halfWidth;

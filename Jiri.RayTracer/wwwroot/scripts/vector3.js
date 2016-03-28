@@ -38,6 +38,9 @@ var Vector3 = (function () {
         var length = this.length();
         return new Vector3(this.x / length, this.y / length, this.z / length);
     };
+    Vector3.prototype.invert = function () {
+        return this.scale(-1);
+    };
     Vector3.prototype.clone = function () {
         return new Vector3(this.x, this.y, this.z);
     };

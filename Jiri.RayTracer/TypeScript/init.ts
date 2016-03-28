@@ -13,21 +13,23 @@ setTimeout(function () {
 
     rayTracer.render(
         new Viewport(
-            new Vector3(0.0, 0.0, 4.0),
+            new Vector3(0.0, 0.0, 10.0),
             new Vector3(0.0, 0.0, -1.0),
             canvas.width,
             canvas.height,
-            70),
+            90),
         {
             objects: [
-                new SceneObjects.Plane(Vector3.BACKWARD, -11.0, Color.WHITE), // back wall
-                new SceneObjects.Plane(Vector3.UP, -2.0, Color.PURPLE), // floor
-                new SceneObjects.Plane(Vector3.DOWN, -2.0, Color.RED),   // ceiling
-                new SceneObjects.Plane(Vector3.RIGHT, -2.0, Color.YELLOW), // left wall
-                new SceneObjects.Plane(Vector3.LEFT, -2.0, Color.BLUE),  // right wall
+                new SceneObjects.Plane(Vector3.BACKWARD, -10.0, Color.GREEN, 0.7, 0.2), // back wall
+                new SceneObjects.Plane(Vector3.UP, -10.0, Color.PURPLE, 0.7, 0.2), // floor
+                new SceneObjects.Plane(Vector3.DOWN, -10.0, Color.CYAN, 0.7, 0.2),   // ceiling
+                new SceneObjects.Plane(Vector3.RIGHT, -10.0, Color.YELLOW, 0.7, 0.2), // left wall
+                new SceneObjects.Plane(Vector3.LEFT, -10.0, Color.BLUE, 0.7, 0.2),  // right wall
                 
-                new SceneObjects.Sphere(new Vector3(0.0, -5.0, -12.25), 1.0, Color.CYAN)
+                new SceneObjects.Sphere(new Vector3(2.0, -2.0, -7.0), 1.0, Color.RED, 0.7, 0.2)
             ],
-            lights: []
+            lights: [
+                { origin: new Vector3(0.0, 3.0, -5.0), color: Color.WHITE }
+            ]
         });
 }, 500);

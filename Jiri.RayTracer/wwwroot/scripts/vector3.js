@@ -50,5 +50,6 @@ var Vector3 = (function () {
     Vector3.DOWN = new Vector3(0, -1, 0);
     Vector3.BACKWARD = new Vector3(0, 0, 1);
     Vector3.FORWARD = new Vector3(0, 0, -1);
+    Vector3.ALMOST_UP = new Vector3(0.0001, 1.0, 0.0001);
     return Vector3;
 }());

@@ -2,7 +2,7 @@
 
     export abstract class SceneObject {
 
-        constructor(private color: Color, private lambert: number, private ambient: number, private specular: number, private textureIdentifier: string) { }
+        constructor(private color: Color, private lambert: number, private ambient: number, private specular: number, private textureIdentifier: string, private bumpMapTextureIdentifier: string) { }
 
         public abstract intersect(ray: Ray);
 
@@ -31,7 +31,9 @@
             return this.textureIdentifier;
         }
 
-        
+        public getBumpMapTextureIdentifier() {
+            return this.bumpMapTextureIdentifier;
+        }
 
     }
 

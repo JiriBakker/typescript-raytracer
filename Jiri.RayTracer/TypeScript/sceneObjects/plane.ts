@@ -2,8 +2,8 @@
 
     export class Plane extends SceneObject {
 
-        constructor(private normalVector: Vector3, private offset: number, color: Color, lambert: number, ambient: number, specular: number, textureIdentifier: string) {
-            super(color, lambert, ambient, specular, textureIdentifier);
+        constructor(private normalVector: Vector3, private offset: number, color: Color, lambert: number, ambient: number, specular: number, textureIdentifier: string, bumpMapTextureIdentifier: string) {
+            super(color, lambert, ambient, specular, textureIdentifier, bumpMapTextureIdentifier);
         }
 
         public intersect(ray: Ray) {

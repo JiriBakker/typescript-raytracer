@@ -70,6 +70,8 @@
             return combinedColor;
         }
 
+        private count = 100;
+
         private trace(ray: Ray, scene: Scene, depth: number) {
             if (depth < 0) {
                 return Color.BLACK;
@@ -81,7 +83,7 @@
             }
 
             const intersectionPoint = ray.direction.scale(intersection.distance).add(ray.origin);
-            const intersectionNormal = intersection.object.getNormalAt(intersectionPoint);
+            let intersectionNormal = intersection.object.getNormalAt(intersectionPoint);
 
             let baseColor = intersection.object.getColor();
 
@@ -93,6 +95,28 @@
 
             let lambertContribution = 0;
             if (intersection.object.lambert > 0) {
+
+                if (intersection.object.getBumpMapTextureIdentifier() !== null) {
+                    const bumpMapTexture = scene.textures[intersection.object.getBumpMapTextureIdentifier()];
+                    const bumpMapTextureCoordinates = intersection.object.getTextureCoordinates(intersectionNormal);
+                    var bumpMapTextureColor = bumpMapTexture.getPixelColorByUV(bumpMapTextureCoordinates.u, bumpMapTextureCoordinates.v);
+
+                    var bumpMapNormal =
+                        new Vector3(bumpMapTextureColor.getRed(), bumpMapTextureColor.getGreen(), bumpMapTextureColor.getBlue())
+                                .scale(2 / 255)
+                                .subtract(new Vector3(1, 1, 1))
+                            .normalize();
+
+                    var onbu = intersectionNormal.crossProduct(Vector3.ALMOST_UP).normalize();
+                    var onbv = onbu.crossProduct(intersectionNormal).normalize();
+                    
+                    intersectionNormal = 
+                            intersectionNormal
+                                .add(onbu.crossProduct(intersectionNormal).scale(bumpMapNormal.getX()))
+                                .add(onbv.crossProduct(intersectionNormal).scale(bumpMapNormal.getY()))
+                                .normalize();
+                }
+                
                 lambertContribution = this.computeLambert(intersectionPoint, intersectionNormal, scene) * intersection.object.lambert;
             }
 
@@ -101,7 +125,8 @@
                 const reflectionDirection = ray.direction.subtract(
                     intersectionNormal.scale(2 * intersectionNormal.dotProduct(ray.direction))
                 );
-                specularColor = this.trace({ origin: intersectionPoint, direction: reflectionDirection }, scene, depth - 1);
+                specularColor = this.trace({ origin: intersectionPoint, direction: reflectionDirection }, scene, depth - 1)
+                                    .scale(intersection.object.specular);
             }
 
             return baseColor

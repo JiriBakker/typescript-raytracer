@@ -11,8 +11,8 @@ var Jiri;
         (function (SceneObjects) {
             var Plane = (function (_super) {
                 __extends(Plane, _super);
-                function Plane(normalVector, offset, color, lambert, ambient, specular, textureIdentifier) {
-                    _super.call(this, color, lambert, ambient, specular, textureIdentifier);
+                function Plane(normalVector, offset, color, lambert, ambient, specular, textureIdentifier, bumpMapTextureIdentifier) {
+                    _super.call(this, color, lambert, ambient, specular, textureIdentifier, bumpMapTextureIdentifier);
                     this.normalVector = normalVector;
                     this.offset = offset;
                 }

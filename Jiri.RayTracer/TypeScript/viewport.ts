@@ -13,9 +13,9 @@
         private pixelHeight: number;
 
         constructor(private cameraOrigin: Vector3, cameraDirection: Vector3, screenWidth: number, screenHeight: number, fieldOfView: number) {
-            this.cameraForward = cameraDirection.subtract(this.cameraOrigin).normalize();
+            this.cameraForward = cameraDirection;//.subtract(this.cameraOrigin).normalize();
             this.cameraRight = this.cameraForward.crossProduct(Vector3.UP).normalize();
-            this.cameraUp = this.cameraRight.crossProduct(this.cameraForward).normalize();  // Since the canvas is rendered top to bottom, we need to invert the y-axis of the camera
+            this.cameraUp = this.cameraRight.crossProduct(this.cameraForward).normalize();
 
             var heightWidthRatio = screenHeight / screenWidth;
 

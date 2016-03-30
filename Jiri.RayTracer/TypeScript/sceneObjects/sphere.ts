@@ -2,8 +2,8 @@
 
     export class Sphere extends SceneObject {
 
-        constructor(private center: Vector3, private radius: number, color: Color, lambert: number, ambient: number, specular: number, textureIdentifier: string) {
-            super(color, lambert, ambient, specular, textureIdentifier);
+        constructor(private center: Vector3, private radius: number, color: Color, lambert: number, ambient: number, specular: number, textureIdentifier: string, bumpMapTextureIdentifier: string) {
+            super(color, lambert, ambient, specular, textureIdentifier, bumpMapTextureIdentifier);
         }
 
         public intersect(ray: Ray) {

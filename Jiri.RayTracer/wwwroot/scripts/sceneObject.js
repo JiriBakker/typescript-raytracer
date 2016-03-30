@@ -5,12 +5,13 @@ var Jiri;
         var SceneObjects;
         (function (SceneObjects) {
             var SceneObject = (function () {
-                function SceneObject(color, lambert, ambient, specular, textureIdentifier) {
+                function SceneObject(color, lambert, ambient, specular, textureIdentifier, bumpMapTextureIdentifier) {
                     this.color = color;
                     this.lambert = lambert;
                     this.ambient = ambient;
                     this.specular = specular;
                     this.textureIdentifier = textureIdentifier;
+                    this.bumpMapTextureIdentifier = bumpMapTextureIdentifier;
                 }
                 SceneObject.prototype.getLambert = function () {
                     return this.lambert;
@@ -26,6 +27,9 @@ var Jiri;
                 };
                 SceneObject.prototype.getTextureIdentifier = function () {
                     return this.textureIdentifier;
+                };
+                SceneObject.prototype.getBumpMapTextureIdentifier = function () {
+                    return this.bumpMapTextureIdentifier;
                 };
                 return SceneObject;
             }());

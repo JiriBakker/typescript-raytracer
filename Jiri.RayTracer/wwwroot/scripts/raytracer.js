@@ -7,6 +7,7 @@ var Jiri;
                 this.canvas = canvas;
                 this.width = width;
                 this.height = height;
+                this.count = 100;
             }
             RayTracer.prototype.render = function (viewport, scene, samplesPerPixel) {
                 var _this = this;
@@ -81,12 +82,29 @@ var Jiri;
                 }
                 var lambertContribution = 0;
                 if (intersection.object.lambert > 0) {
+                    if (intersection.object.getBumpMapTextureIdentifier() !== null) {
+                        var bumpMapTexture = scene.textures[intersection.object.getBumpMapTextureIdentifier()];
+                        var bumpMapTextureCoordinates = intersection.object.getTextureCoordinates(intersectionNormal);
+                        var bumpMapTextureColor = bumpMapTexture.getPixelColorByUV(bumpMapTextureCoordinates.u, bumpMapTextureCoordinates.v);
+                        var bumpMapNormal = new Vector3(bumpMapTextureColor.getRed(), bumpMapTextureColor.getGreen(), bumpMapTextureColor.getBlue())
+                            .scale(2 / 255)
+                            .subtract(new Vector3(1, 1, 1))
+                            .normalize();
+                        var onbu = intersectionNormal.crossProduct(Vector3.ALMOST_UP).normalize();
+                        var onbv = onbu.crossProduct(intersectionNormal).normalize();
+                        intersectionNormal =
+                            intersectionNormal
+                                .add(onbu.crossProduct(intersectionNormal).scale(bumpMapNormal.getX()))
+                                .add(onbv.crossProduct(intersectionNormal).scale(bumpMapNormal.getY()))
+                                .normalize();
+                    }
                     lambertContribution = this.computeLambert(intersectionPoint, intersectionNormal, scene) * intersection.object.lambert;
                 }
                 var specularColor = Color.BLACK;
                 if (intersection.object.specular > 0) {
                     var reflectionDirection = ray.direction.subtract(intersectionNormal.scale(2 * intersectionNormal.dotProduct(ray.direction)));
-                    specularColor = this.trace({ origin: intersectionPoint, direction: reflectionDirection }, scene, depth - 1);
+                    specularColor = this.trace({ origin: intersectionPoint, direction: reflectionDirection }, scene, depth - 1)
+                        .scale(intersection.object.specular);
                 }
                 return baseColor
                     .scale(Math.min(1, intersection.object.ambient + lambertContribution))

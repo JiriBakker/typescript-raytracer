@@ -11,8 +11,8 @@ var Jiri;
         (function (SceneObjects) {
             var Sphere = (function (_super) {
                 __extends(Sphere, _super);
-                function Sphere(center, radius, color, lambert, ambient, specular, textureIdentifier) {
-                    _super.call(this, color, lambert, ambient, specular, textureIdentifier);
+                function Sphere(center, radius, color, lambert, ambient, specular, textureIdentifier, bumpMapTextureIdentifier) {
+                    _super.call(this, color, lambert, ambient, specular, textureIdentifier, bumpMapTextureIdentifier);
                     this.center = center;
                     this.radius = radius;
                 }

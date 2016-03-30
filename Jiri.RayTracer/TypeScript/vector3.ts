@@ -62,4 +62,6 @@
     static BACKWARD = new Vector3( 0,  0,  1);
     static FORWARD  = new Vector3( 0,  0, -1);
 
+    static ALMOST_UP = new Vector3(0.0001, 1.0, 0.0001);
+
 }

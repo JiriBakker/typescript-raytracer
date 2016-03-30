@@ -11,8 +11,8 @@ var Jiri;
         (function (SceneObjects) {
             var Sphere = (function (_super) {
                 __extends(Sphere, _super);
-                function Sphere(center, radius, color, lambert, ambient, specular) {
-                    _super.call(this, color, lambert, ambient, specular);
+                function Sphere(center, radius, color, lambert, ambient, specular, textureIdentifier) {
+                    _super.call(this, color, lambert, ambient, specular, textureIdentifier);
                     this.center = center;
                     this.radius = radius;
                 }
@@ -39,6 +39,11 @@ var Jiri;
                 };
                 Sphere.prototype.getNormalAt = function (position) {
                     return position.subtract(this.center).normalize();
+                };
+                Sphere.prototype.getTextureCoordinates = function (intersectionNormal) {
+                    var u = 0.5 + (Math.atan2(intersectionNormal.getZ(), intersectionNormal.getX()) / (2 * Math.PI));
+                    var v = 0.5 - (Math.asin(intersectionNormal.getY()) / Math.PI);
+                    return { u: u, v: v };
                 };
                 return Sphere;
             }(SceneObjects.SceneObject));

@@ -27,7 +27,17 @@ interface Intersection {
 //}
 
 
+interface TextureSet {
+    [identifier: string] : Texture
+}
+
+interface TextureCoordinates {
+    u: number,
+    v: number
+}
+
 interface Scene {
     objects: SceneObject[];
     lights: Light[];
+    textures: TextureSet;
 }

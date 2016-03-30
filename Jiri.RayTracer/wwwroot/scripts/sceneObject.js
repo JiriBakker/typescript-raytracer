@@ -5,11 +5,12 @@ var Jiri;
         var SceneObjects;
         (function (SceneObjects) {
             var SceneObject = (function () {
-                function SceneObject(color, lambert, ambient, specular) {
+                function SceneObject(color, lambert, ambient, specular, textureIdentifier) {
                     this.color = color;
                     this.lambert = lambert;
                     this.ambient = ambient;
                     this.specular = specular;
+                    this.textureIdentifier = textureIdentifier;
                 }
                 SceneObject.prototype.getLambert = function () {
                     return this.lambert;
@@ -22,6 +23,9 @@ var Jiri;
                 };
                 SceneObject.prototype.getColor = function () {
                     return this.color;
+                };
+                SceneObject.prototype.getTextureIdentifier = function () {
+                    return this.textureIdentifier;
                 };
                 return SceneObject;
             }());

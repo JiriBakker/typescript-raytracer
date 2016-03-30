@@ -11,8 +11,8 @@ var Jiri;
         (function (SceneObjects) {
             var Plane = (function (_super) {
                 __extends(Plane, _super);
-                function Plane(normalVector, offset, color, lambert, ambient, specular) {
-                    _super.call(this, color, lambert, ambient, specular);
+                function Plane(normalVector, offset, color, lambert, ambient, specular, textureIdentifier) {
+                    _super.call(this, color, lambert, ambient, specular, textureIdentifier);
                     this.normalVector = normalVector;
                     this.offset = offset;
                 }
@@ -29,6 +29,9 @@ var Jiri;
                 };
                 Plane.prototype.getNormalAt = function (position) {
                     return this.normalVector;
+                };
+                Plane.prototype.getTextureCoordinates = function (intersectionNormal) {
+                    return { u: 0, v: 0 };
                 };
                 return Plane;
             }(SceneObjects.SceneObject));

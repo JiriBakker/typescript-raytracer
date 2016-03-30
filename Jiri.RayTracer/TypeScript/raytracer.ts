@@ -1,28 +1,58 @@
 ﻿namespace Jiri.RayTracer {
 
+    import Sphere = Jiri.RayTracer.SceneObjects.Sphere;
+
     export class RayTracer {
 
-        constructor(private context: CanvasRenderingContext2D, private width: number, private height: number) { }
+        constructor(private canvas: HTMLCanvasElement, private width: number, private height: number) { }
 
         public render(viewport: Viewport, scene: Scene, samplesPerPixel: number) {
-            var imageData = this.context.getImageData(0, 0, this.width, this.height);
+            this.loadTextures(scene, () => {
 
-            for (var y = 0; y < this.height; y++) {
-                for (var x = 0; x < this.width; x++) {
-                    var color = this.superSample(samplesPerPixel, (dx, dy) => {
-                        var ray = viewport.getRayForPixel(x + dx, y + dy);
-                        return this.trace(ray, scene, 3);
-                    });
+                var imageData = this.getContext().getImageData(0, 0, this.width, this.height);
 
-                    this.setColor(x, y, color, imageData);                                  
+                for (var y = 0; y < this.height; y++) {
+                    for (var x = 0; x < this.width; x++) {
+                        const color = this.superSample(samplesPerPixel, (dx, dy) => {
+                            var ray = viewport.getRayForPixel(x + dx, y + dy);
+                            return this.trace(ray, scene, 3);
+                        });
+                        this.setColor(x, y, color, imageData);
+                    }
+                }
+
+                this.getContext().putImageData(imageData, 0, 0);
+
+            });
+        }
+
+        private getContext() {
+            return this.canvas.getContext("2d");
+        }
+
+        private loadTextures(scene: Scene, callback) {
+            const numberOfTextures = Object.keys(scene.textures).length;
+            if (numberOfTextures === 0) {
+                callback();
+                return;
+            }
+            
+            var numberOfCallbacksRunning = numberOfTextures;
+            const finalizerCallback = () => {
+                if (--numberOfCallbacksRunning <= 0) { // TODO JB potential RACE condition...
+                    callback();
+                }
+            };
+            for (let identifier in scene.textures) {
+                if (scene.textures.hasOwnProperty(identifier)) {
+                    const texture = scene.textures[identifier];
+                    texture.load(finalizerCallback);
                 }
             }
-
-            this.context.putImageData(imageData, 0, 0);
         }
 
         private setColor(x: number, y: number, color: Color, imageData: ImageData) {
-            var index = (x * 4) + ((this.height - y) * this.width * 4)
+            const index = (x * 4) + ((this.height - y) * this.width * 4);
             imageData.data[index + 0] = color.getRed();
             imageData.data[index + 1] = color.getGreen();
             imageData.data[index + 2] = color.getBlue();
@@ -30,10 +60,10 @@
         }
 
         private superSample(samplesPerPixel: number, sampleFunc: (px:number, py:number) => Color) {
-            var combinedColor = Color.BLACK;
-            for (var dx = 0.5 / samplesPerPixel; dx < 1; dx += 1 / samplesPerPixel) {
-                for (var dy = 0.5 / samplesPerPixel; dy < 1; dy += 1 / samplesPerPixel) {
-                    var color = sampleFunc(dx - 0.5, dy - 0.5);
+            let combinedColor = Color.BLACK;
+            for (let dx = 0.5 / samplesPerPixel; dx < 1; dx += 1 / samplesPerPixel) {
+                for (let dy = 0.5 / samplesPerPixel; dy < 1; dy += 1 / samplesPerPixel) {
+                    const color = sampleFunc(dx - 0.5, dy - 0.5);
                     combinedColor = combinedColor.add(color.scale(1 / (samplesPerPixel * samplesPerPixel)));
                 }
             }
@@ -45,31 +75,37 @@
                 return Color.BLACK;
             }
 
-            var intersection = this.findIntersection(ray, scene);
+            const intersection = this.findIntersection(ray, scene);
             if (intersection == null) {
                 return Color.BLACK;
             }
 
-            var intersectionPoint = ray.direction.scale(intersection.distance).add(ray.origin);
-            var intersectionNormal = intersection.object.getNormalAt(intersectionPoint);
+            const intersectionPoint = ray.direction.scale(intersection.distance).add(ray.origin);
+            const intersectionNormal = intersection.object.getNormalAt(intersectionPoint);
 
-            var lambertContribution = 0;
+            let baseColor = intersection.object.getColor();
+
+            if (intersection.object.getTextureIdentifier() !== null) {
+                const texture = scene.textures[intersection.object.getTextureIdentifier()];
+                const textureCoordinates = intersection.object.getTextureCoordinates(intersectionNormal);
+                baseColor = baseColor.add(texture.getPixelColorByUV(textureCoordinates.u, textureCoordinates.v));
+            }
+
+            let lambertContribution = 0;
             if (intersection.object.lambert > 0) {
-                lambertContribution = this.computeLambert(intersectionPoint, intersectionNormal, scene);
-            }            
+                lambertContribution = this.computeLambert(intersectionPoint, intersectionNormal, scene) * intersection.object.lambert;
+            }
 
-            var specularColor = Color.BLACK;
+            let specularColor = Color.BLACK;
             if (intersection.object.specular > 0) {
-                var reflectionDirection = ray.direction.subtract(
-                                                    intersectionNormal.scale(2 * intersectionNormal.dotProduct(ray.direction))
-                                                );
-
+                const reflectionDirection = ray.direction.subtract(
+                    intersectionNormal.scale(2 * intersectionNormal.dotProduct(ray.direction))
+                );
                 specularColor = this.trace({ origin: intersectionPoint, direction: reflectionDirection }, scene, depth - 1);
-            }           
+            }
 
-            return Color.BLACK
-                        .add(intersection.object.getColor().scale(lambertContribution * intersection.object.lambert))
-                        .add(intersection.object.getColor().scale(intersection.object.ambient))
+            return baseColor
+                        .scale(Math.min(1, intersection.object.ambient + lambertContribution))
                         .add(specularColor);
 
         }
@@ -107,6 +143,8 @@
 
             return closestIntersection;
         }
+
+       
 
     }
 

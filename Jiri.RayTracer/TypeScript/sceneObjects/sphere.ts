@@ -2,8 +2,8 @@
 
     export class Sphere extends SceneObject {
 
-        constructor(private center: Vector3, private radius: number, color: Color, lambert: number, ambient: number, specular: number) {
-            super(color, lambert, ambient, specular);
+        constructor(private center: Vector3, private radius: number, color: Color, lambert: number, ambient: number, specular: number, textureIdentifier: string) {
+            super(color, lambert, ambient, specular, textureIdentifier);
         }
 
         public intersect(ray: Ray) {
@@ -29,6 +29,12 @@
 
         public getNormalAt(position: Vector3) {
             return position.subtract(this.center).normalize();            
+        }
+
+        public getTextureCoordinates(intersectionNormal: Vector3) {
+            var u = 0.5 + (Math.atan2(intersectionNormal.getZ(), intersectionNormal.getX()) / (2 * Math.PI));
+            var v = 0.5 - (Math.asin(intersectionNormal.getY()) / Math.PI);
+            return { u: u, v: v };
         }
 
     }

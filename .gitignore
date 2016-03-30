@@ -3,3 +3,4 @@
 /.vs
 /Jiri.RayTracer/project.lock.json
 /Jiri.RayTracer/*.user
+/Jiri.RayTracer/wwwroot/textures

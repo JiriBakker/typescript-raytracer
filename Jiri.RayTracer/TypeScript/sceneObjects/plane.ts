@@ -2,8 +2,8 @@
 
     export class Plane extends SceneObject {
 
-        constructor(private normalVector: Vector3, private offset: number, color: Color, lambert: number, ambient: number, specular: number) {
-            super(color, lambert, ambient, specular);
+        constructor(private normalVector: Vector3, private offset: number, color: Color, lambert: number, ambient: number, specular: number, textureIdentifier: string) {
+            super(color, lambert, ambient, specular, textureIdentifier);
         }
 
         public intersect(ray: Ray) {
@@ -20,6 +20,10 @@
 
         public getNormalAt(position: Vector3) {
             return this.normalVector;
+        }
+
+        public getTextureCoordinates(intersectionNormal: Vector3) {
+            return { u: 0, v: 0 }; // TODO JB
         }
 
 

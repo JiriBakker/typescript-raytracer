@@ -10,7 +10,7 @@ var paths = {
     lib: "./" + project.webroot + "/lib/",
     tsSource: ['./TypeScript/*.ts', './TypeScript/sceneObjects/*.ts'],
     tsOutput: "./" + project.webroot + '/scripts/',
-    tsDef: "./TypeScript/definitions/"
+    //tsDef: "./TypeScript/definitions/"
 };
  
 var tsProject = ts.createProject({
@@ -25,7 +25,7 @@ gulp.task('ts-compile', function () {
                     .pipe(ts(tsProject));
  
     return merge([
-        tsResult.dts.pipe(gulp.dest(paths.tsDef)),
+        //tsResult.dts.pipe(gulp.dest(paths.tsDef)),
         tsResult.js.pipe(gulp.dest(paths.tsOutput))
     ]);
 });

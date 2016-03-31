@@ -32,8 +32,8 @@ interface TextureSet {
 }
 
 interface TextureCoordinates {
-    u: number,
-    v: number
+    u: number;
+    v: number;
 }
 
 interface Scene {

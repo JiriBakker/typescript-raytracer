@@ -14,7 +14,7 @@
 
         constructor(private cameraOrigin: Vector3, cameraDirection: Vector3, screenWidth: number, screenHeight: number, fieldOfView: number) {
             this.cameraForward = cameraDirection;//.subtract(this.cameraOrigin).normalize();
-            this.cameraRight = this.cameraForward.crossProduct(Vector3.UP).normalize();
+            this.cameraRight = this.cameraForward.crossProduct(Vector3.ALMOST_UP).normalize();
             this.cameraUp = this.cameraRight.crossProduct(this.cameraForward).normalize();
 
             var heightWidthRatio = screenHeight / screenWidth;

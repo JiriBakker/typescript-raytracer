@@ -31,5 +31,4 @@ interface TextureSet {
 interface Scene {
     objects: SceneObject[];
     lights: Light[];
-    textureManager: TextureManager;
 }

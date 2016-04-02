@@ -14,11 +14,12 @@ document.addEventListener("DOMContentLoaded", function () {
         "moon-bump": new Texture("textures/moon-bump.jpg", 4096, 2048)
     });
     textureManager.preloadTextures(function () {
+        var startTick = new Date().getTime();
         var rayTracer = new RayTracer(canvas.getContext("2d"), canvas.width, canvas.height);
+        var viewport = new Viewport(new Vector3(0.0, 0.0, 20), new Vector3(0.0, 0, -1), canvas.width, canvas.height, 60);
         var globalAmbient = 0.2;
         var globalSpecular = 0;
-        var startTick = new Date().getTime();
-        rayTracer.render(new Viewport(new Vector3(0.0, 0.0, 20), new Vector3(0.0, 0, -1), canvas.width, canvas.height, 60), {
+        var scene = {
             objects: [
                 new SceneObjects.Plane(Vector3.BACKWARD, -10.0, Color.GREEN, 0.7, globalAmbient, globalSpecular, null, null),
                 new SceneObjects.Plane(Vector3.UP, -10.0, Color.PURPLE, 0.7, globalAmbient, globalSpecular, null, null),
@@ -30,9 +31,10 @@ document.addEventListener("DOMContentLoaded", function () {
             ],
             lights: [
                 { origin: new Vector3(-8.0, 8.0, 0.0), color: Color.WHITE }
-            ],
-            textureManager: textureManager
-        }, 2);
+            ]
+        };
+        var samplesPerAxis = 2;
+        rayTracer.render(viewport, scene, textureManager, samplesPerAxis);
         var endTick = new Date().getTime();
         document.getElementById("renderTime").innerHTML = (endTick - startTick) + "ms";
     });

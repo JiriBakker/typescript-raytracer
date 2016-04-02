@@ -3,9 +3,9 @@ var Jiri;
     var RayTracer;
     (function (RayTracer) {
         var Viewport = (function () {
-            function Viewport(cameraOrigin, cameraDirection, screenWidth, screenHeight, fieldOfView) {
+            function Viewport(cameraOrigin, cameraForward, screenWidth, screenHeight, fieldOfView) {
                 this.cameraOrigin = cameraOrigin;
-                this.cameraForward = cameraDirection;
+                this.cameraForward = cameraForward;
                 this.cameraRight = this.cameraForward.crossProduct(Vector3.ALMOST_UP).normalize();
                 this.cameraUp = this.cameraRight.crossProduct(this.cameraForward).normalize();
                 var heightWidthRatio = screenHeight / screenWidth;
@@ -19,7 +19,10 @@ var Jiri;
                 var yVector = this.cameraUp.scale((y * this.pixelHeight) - this.halfHeight);
                 return {
                     origin: this.cameraOrigin,
-                    direction: this.cameraForward.add(xVector).add(yVector).normalize()
+                    direction: this.cameraForward
+                        .add(xVector)
+                        .add(yVector)
+                        .normalize()
                 };
             };
             return Viewport;

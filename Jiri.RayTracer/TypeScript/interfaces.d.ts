@@ -8,7 +8,7 @@ interface Ray {
 
 interface Light {
     origin: Vector3;
-    color: Color;
+    color:  Color;
 }
 
 
@@ -19,25 +19,17 @@ interface Intersection {
 }
 
 
-//interface SceneObject {
-//    intersect:  (ray: Ray) => Intersection;
-//    getColor:   ()         => Color;
-//    getLambert: ()         => number;
-//    getAmbient: ()         => number;
-//}
-
-
-interface TextureSet {
-    [identifier: string] : Texture
-}
-
 interface TextureCoordinates {
     u: number;
     v: number;
 }
 
+interface TextureSet {
+    [identifier: string] : Texture;
+}
+
 interface Scene {
     objects: SceneObject[];
     lights: Light[];
-    textures: TextureSet;
+    textureManager: TextureManager;
 }
